@@ -7,6 +7,7 @@ import java.util.Collections;
 public class LogWindowSource {
     private int m_iQueueLength;
 
+
     private ArrayList<LogEntry> m_messages;
     private final ArrayList<LogChangeListener> m_listeners;
     private volatile LogChangeListener[] m_activeListeners;
@@ -66,6 +67,13 @@ public class LogWindowSource {
     }
 
     public Iterable<LogEntry> all() {
+        return m_messages;
+    }
+
+    public void set(ArrayList<LogEntry> arrayList) {
+        m_messages = arrayList;
+    }
+    public ArrayList<LogEntry> getList() {
         return m_messages;
     }
 }

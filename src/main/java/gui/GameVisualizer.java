@@ -28,6 +28,13 @@ public class GameVisualizer extends JPanel {
 
     private volatile Robot robot = new Robot();
 
+    public Robot getRobot() {
+        return robot;
+    }
+    public void setRobot(double x, double y, double d){
+        robot.set(x,y,d);
+    }
+
     protected GameVisualizer() {
         m_timer.schedule(new TimerTask() {
             @Override
@@ -50,8 +57,11 @@ public class GameVisualizer extends JPanel {
         });
         setDoubleBuffered(true);
     }
+    public Point getTargetPosition() {
+        return new Point(m_targetPositionX, m_targetPositionY);
+    }
 
-    private void setTargetPosition(Point p) {
+    public void setTargetPosition(Point p) {
         m_targetPositionX = p.x;
         m_targetPositionY = p.y;
     }

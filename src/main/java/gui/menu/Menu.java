@@ -1,6 +1,8 @@
 package gui.menu;
 
+import gui.CloseWindow;
 import gui.MainApplicationFrame;
+import gui.RobotsProgram;
 import log.Logger;
 
 import javax.swing.*;
@@ -34,6 +36,19 @@ public class Menu {
 
         menuBar.items.add(new MenuBarItem("Сообщение в лог", (event) -> {
             Logger.debug("Новая строка");
+        }));
+
+        menu.add(menuBar);
+
+        menuBar = new MenuBar("Выход",
+                KeyEvent.VK_END,
+                "Выход из приложения");
+
+        menuBar.items.add(new MenuBarItem("Выйти", (event) -> {
+            CloseWindow.openCloseWindow(main, (a) -> {
+                RobotsProgram.save();
+                System.exit(a);
+            });
         }));
 
         menu.add(menuBar);

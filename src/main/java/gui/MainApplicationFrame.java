@@ -4,21 +4,24 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.beans.PropertyVetoException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 
 import gui.menu.MenuBarItem;
 import gui.menu.MenuBar;
 import gui.menu.Menu;
+import gui.serialization.WindowSerializable;
 import log.Logger;
 
 
 public class MainApplicationFrame extends JFrame {
-    private final JDesktopPane desktopPane = new JDesktopPane();
+    public final JDesktopPane desktopPane = new JDesktopPane();
     private final int inset = 50;
+    public HashMap<String, WindowSerializable> windows_s = new HashMap<>();
+
 
     public MainApplicationFrame() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -31,12 +34,14 @@ public class MainApplicationFrame extends JFrame {
         CloseWindow.addClose(this);
 
         LogWindow logWindow = createLogWindow();
-        addWindow(logWindow);
+        addWindow("logWindow", logWindow);
 
 
         GameWindow gameWindow = new GameWindow();
-        gameWindow.setSize(400, 400);
-        addWindow(gameWindow);
+        gameWindow.setSize(600, 400);
+        addWindow("gameWindow", gameWindow);
+
+        RobotsProgram.load(this);
 
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -47,15 +52,17 @@ public class MainApplicationFrame extends JFrame {
         logWindow.setLocation(10, 10);
         logWindow.setSize(300, 800);
         setMinimumSize(logWindow.getSize());
-        logWindow.pack();
         Logger.debug("Протокол работает");
         return logWindow;
     }
 
-    protected void addWindow(JInternalFrame frame) {
+    protected void addWindow(String name, JInternalFrame frame) {
+        windows_s.put(name, (WindowSerializable) frame);
+        frame.setName(name);
         desktopPane.add(frame);
         frame.setVisible(true);
         CloseWindow.addClose(frame);
+
     }
 
     private ArrayList<MenuBar> menuStruct = new Menu(this).menu;
@@ -97,4 +104,5 @@ public class MainApplicationFrame extends JFrame {
             // just ignore
         }
     }
+
 }

@@ -3,18 +3,30 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.TextArea;
+import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
 
+import com.google.gson.JsonSerializer;
+import gui.serialization.LogWindowSerializer;
+import gui.serialization.WindowSerializable;
 import log.LogChangeListener;
 import log.LogEntry;
 import log.LogWindowSource;
 
-public class LogWindow extends JInternalFrame implements LogChangeListener {
+public class LogWindow extends JInternalFrame implements LogChangeListener, WindowSerializable {
     private LogWindowSource m_logSource;
     private TextArea m_logContent;
+    public JsonSerializer getSerializer() {
+        return new LogWindowSerializer();
+    }
+    public ArrayList<LogEntry> getList() {
+        return m_logSource.getList();
+    }
+
+    public void setList( ArrayList<LogEntry> arrayList) {
+        m_logSource.set(arrayList);
+    }
 
     public LogWindow(LogWindowSource logSource) {
         super("Протокол работы", true, true, true, true);
@@ -48,5 +60,6 @@ public class LogWindow extends JInternalFrame implements LogChangeListener {
     @Override
     public void dispose(){
         m_logSource.unregisterListener(this);
+        super.dispose();
     }
 }

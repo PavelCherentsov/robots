@@ -5,11 +5,17 @@ public class Robot {
     private volatile double m_PositionY = 100;
     private volatile double m_Direction = 0;
 
-    private static final double maxVelocity = 0.1;
-    private static final double maxAngularVelocity = 0.003;
+    private static transient final double maxVelocity = 0.1;
+    private static transient final double maxAngularVelocity = 0.003;
 
     public Robot() {
 
+    }
+
+    public void set(double x, double y, double d){
+        m_PositionX = x;
+        m_PositionY = y;
+        m_Direction = d;
     }
 
     public double getM_PositionX() {
