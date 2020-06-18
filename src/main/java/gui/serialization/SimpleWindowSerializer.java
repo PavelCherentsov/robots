@@ -19,7 +19,7 @@ public class SimpleWindowSerializer implements JsonSerializer<JInternalFrame>, J
         } catch (PropertyVetoException e) {
             e.printStackTrace();
         }
-
+        System.out.println(1);
         return window;
     }
 

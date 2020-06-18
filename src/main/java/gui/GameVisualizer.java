@@ -26,7 +26,7 @@ public class GameVisualizer extends JPanel {
     private volatile int m_targetPositionX = 150;
     private volatile int m_targetPositionY = 100;
 
-    private volatile Robot robot = new Robot();
+    private volatile Robot robot = Robot.getRobot();
 
     public Robot getRobot() {
         return robot;

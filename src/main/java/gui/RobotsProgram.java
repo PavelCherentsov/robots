@@ -33,6 +33,8 @@ public class RobotsProgram {
         });
     }
 
+
+
     public static void save() {
         JsonObject jsonObject = new JsonObject();
         for (String e: frame.windows_s.keySet()) {
@@ -67,6 +69,7 @@ public class RobotsProgram {
             JsonObject json = new JsonParser().parse(s_json).getAsJsonObject();
             for (JInternalFrame frame : mainFrame.desktopPane.getAllFrames()) {
                 String name = frame.getName();
+                System.out.println( mainFrame.windows_s.get(name).getClass());
                 WindowSerializable w = new GsonBuilder()
                         .registerTypeAdapter(mainFrame.windows_s.get(name).getClass(), mainFrame.windows_s.get(name).getSerializer())
                         .create()

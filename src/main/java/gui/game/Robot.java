@@ -1,15 +1,33 @@
 package gui.game;
 
+
+import gui.RobotChangeListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Robot {
     private volatile double m_PositionX = 100;
     private volatile double m_PositionY = 100;
     private volatile double m_Direction = 0;
 
+    private ArrayList<RobotChangeListener> m_listeners = new ArrayList<>();
+
     private static transient final double maxVelocity = 0.1;
-    private static transient final double maxAngularVelocity = 0.003;
-
-    public Robot() {
-
+    private static transient final double maxAngularVelocity = 0.005;
+    public static Robot r;
+    public static Robot getRobot() {
+        if (r == null) {
+            r = new Robot();
+        }
+        return r;
+    }
+    public HashMap<String, Double> getInfo() {
+        HashMap<String, Double> info = new HashMap<>();
+        info.put("Position X:", round(getM_PositionX()));
+        info.put("Position Y:", round(getM_PositionY()));
+        info.put("Direction:", round(getM_Direction()));
+        return info;
     }
 
     public void set(double x, double y, double d){
@@ -98,6 +116,11 @@ public class Robot {
         }
         newDirection = asNormalizedRadians(m_Direction + angularVelocity * duration);
         m_Direction = newDirection;
+        synchronized (m_listeners) {
+            for (RobotChangeListener listener : m_listeners) {
+                listener.onLogChanged();
+            }
+        }
     }
 
 
@@ -133,4 +156,21 @@ public class Robot {
         return value;
     }
 
+    public void registerListener(RobotChangeListener listener) {
+        synchronized (m_listeners) {
+            m_listeners.add(listener);
+        }
+    }
+
+    public void unregisterListener(RobotChangeListener listener) {
+        synchronized (m_listeners) {
+            m_listeners.remove(listener);
+        }
+    }
+
+    private double round(double n) {
+        n *= 100;
+        n = (int)Math.round(n);
+        return n/100;
+    }
 }

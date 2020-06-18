@@ -41,7 +41,11 @@ public class MainApplicationFrame extends JFrame {
         gameWindow.setSize(600, 400);
         addWindow("gameWindow", gameWindow);
 
-        RobotsProgram.load(this);
+        RobotInfoWindow robotInfoWindow = new RobotInfoWindow();
+        robotInfoWindow.setSize(200,200);
+        addWindow("robotInfoWindow", robotInfoWindow);
+
+        //RobotsProgram.load(this);
 
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(EXIT_ON_CLOSE);

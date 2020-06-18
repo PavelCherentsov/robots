@@ -17,6 +17,7 @@ import log.LogWindowSource;
 public class LogWindow extends JInternalFrame implements LogChangeListener, WindowSerializable {
     private LogWindowSource m_logSource;
     private TextArea m_logContent;
+
     public JsonSerializer getSerializer() {
         return new LogWindowSerializer();
     }
